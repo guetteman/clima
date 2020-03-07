@@ -28,6 +28,10 @@ class WeatherViewController: UIViewController {
         locationManager.requestWhenInUseAuthorization()
         locationManager.requestLocation()
     }
+    
+    @IBAction func currentLocationPressed(_ sender: Any) {
+        locationManager.requestLocation()
+    }
 }
 
 extension WeatherViewController: UITextFieldDelegate {
@@ -75,6 +79,7 @@ extension WeatherViewController: WeatherManagerDelegate {
 extension WeatherViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
+            locationManager.stopUpdatingLocation()
             let lat = location.coordinate.latitude
             let lon = location.coordinate.longitude
             
@@ -83,6 +88,6 @@ extension WeatherViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        
+        print("Error when getting current location")
     }
 }
